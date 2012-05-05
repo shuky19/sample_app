@@ -23,8 +23,10 @@ describe User do
 	it { should respond_to(:password) }
 	it { should respond_to(:password_confirmation) }
 	it { should respond_to(:remember_token) }
+	it { should respond_to(:admin) }
 	it { should respond_to(:authenticate) }
 	it { should be_valid }
+	it { should_not be_admin }
 
 	describe "when name is not presence" do
 		before { @user.name = " " }
@@ -44,6 +46,11 @@ describe User do
 	describe "when password does'nt match confirmation" do
 		before { @user.password_confirmation = "mismatch" }
 		it { should_not be_valid }
+	end
+
+ 	describe "with admin attribute set to 'true'" do
+    	before { @user.toggle!(:admin) }
+		it { should be_admin }
 	end
 
 	describe "when password confirmation is nil" do
